@@ -1,7 +1,8 @@
-import { useFarm } from '../../context/FarmContext'
+import { TerrenoCard } from './components/TerrenoCard'
+import { useTerrenos } from './hooks/useTerrenos'
 
 export function TerrenosPage() {
-  const { terrenos } = useFarm()
+  const { terrenos, totalHectareas } = useTerrenos()
 
   return (
     <div className="page-grid">
@@ -13,22 +14,22 @@ export function TerrenosPage() {
           </button>
         </div>
 
+        <div className="metrics-row">
+          <div className="metric-card">
+            <span>Parcelas</span>
+            <strong>{terrenos.length}</strong>
+            <small>Activas</small>
+          </div>
+          <div className="metric-card">
+            <span>Hectáreas</span>
+            <strong>{totalHectareas.toFixed(1)}</strong>
+            <small>Total</small>
+          </div>
+        </div>
+
         <div className="card-grid">
           {terrenos.map((terreno) => (
-            <article key={terreno.id} className="info-card">
-              <div className="card-header-row">
-                <h4>{terreno.nombre}</h4>
-                <span className="status-pill">{terreno.estado}</span>
-              </div>
-              <p>{terreno.ubicacion}</p>
-              <ul>
-                <li>{terreno.hectareas} ha</li>
-                <li>{terreno.tipoSuelo}</li>
-              </ul>
-              <button type="button" className="secondary-button">
-                Ver detalle
-              </button>
-            </article>
+            <TerrenoCard key={terreno.id} terreno={terreno} />
           ))}
         </div>
       </section>
