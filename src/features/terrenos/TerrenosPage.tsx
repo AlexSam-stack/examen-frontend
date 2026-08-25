@@ -33,6 +33,28 @@ export function TerrenosPage() {
           ))}
         </div>
       </section>
+
+      <section className="panel">
+        <div className="panel-header">
+          <div>
+            <p className="eyebrow">Vista general</p>
+            <h3>Ubicación de parcelas</h3>
+          </div>
+          <span className="map-status">Mapa operativo</span>
+        </div>
+        <div className="farm-map" aria-label="Mapa de parcelas de la finca">
+          {terrenos.map((terreno, index) => (
+            <div
+              className={`map-marker marker-${index + 1}`}
+              key={terreno.id}
+              title={`${terreno.nombre}: ${terreno.ubicacion}`}
+            >
+              <span>{index + 1}</span>
+              <strong>{terreno.nombre}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

@@ -389,6 +389,179 @@ th {
   font-size: 0.85rem;
 }
 
+.page-intro,
+.detail-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  padding: 22px 24px;
+  border: 1px solid #dcebd9;
+  border-radius: 18px;
+  background: linear-gradient(115deg, #e8f5e8, #fffdf3);
+}
+
+.page-intro h2,
+.detail-hero h2 {
+  margin: 4px 0 8px;
+  color: #183827;
+}
+
+.page-intro p:last-child,
+.detail-hero p:last-child {
+  margin: 0;
+  color: #526756;
+}
+
+.search-input {
+  min-width: 220px;
+  border: 1px solid #cfe1ce;
+  border-radius: 10px;
+  padding: 11px 13px;
+  background: #fff;
+}
+
+.detail-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.detail-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #edf1ed;
+}
+
+.detail-list dt {
+  color: #607265;
+}
+
+.detail-list dd {
+  margin: 0;
+  color: #1d3825;
+  font-weight: 700;
+  text-align: right;
+}
+
+.detail-list.compact {
+  gap: 9px;
+}
+
+.detail-list.compact div {
+  padding-bottom: 8px;
+}
+
+.map-preview,
+.farm-map {
+  position: relative;
+  overflow: hidden;
+  min-height: 210px;
+  border-radius: 14px;
+  background-color: #dcebd1;
+  background-image: linear-gradient(32deg, transparent 45%, rgba(255, 255, 255, .65) 46%, transparent 48%), linear-gradient(148deg, transparent 46%, rgba(173, 199, 157, .8) 47%, transparent 50%);
+  background-size: 90px 70px, 110px 90px;
+}
+
+.map-preview {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: #244d32;
+}
+
+.map-preview small {
+  color: #56705d;
+}
+
+.map-pin,
+.disease-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #d9754c;
+  color: #fff;
+  font-weight: 800;
+}
+
+.farm-map {
+  min-height: 280px;
+}
+
+.map-marker {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 28px auto;
+  align-items: center;
+  gap: 7px;
+  color: #244d32;
+}
+
+.map-marker span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: #d9754c;
+  color: #fff;
+  font-weight: 800;
+}
+
+.map-marker span::first-letter {
+  transform: rotate(45deg);
+}
+
+.marker-1 { top: 28%; left: 24%; }
+.marker-2 { top: 57%; left: 58%; }
+.marker-3 { top: 72%; left: 29%; }
+
+.map-status {
+  color: #2d7544;
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.compact-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.compact-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #edf1ed;
+}
+
+.compact-list span,
+.empty-state {
+  color: #607265;
+  font-size: .9rem;
+}
+
+.disease-grid {
+  align-items: stretch;
+}
+
+.disease-card .disease-icon {
+  background: #78a95d;
+}
+
+.disease-card p {
+  line-height: 1.45;
+}
+
 @media (max-width: 860px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -410,5 +583,16 @@ th {
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .page-intro,
+  .detail-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .search-input {
+    width: 100%;
+    min-width: 0;
   }
 }
