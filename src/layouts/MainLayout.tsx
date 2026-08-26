@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react'
-import { navigationItems } from '../routes/AppRoutes'
+import { navigationItems, type PageId } from '../routes/navigation'
+import type { Farm, UserProfile } from '../types/farm'
 
 type MainLayoutProps = {
-  currentPage: string
-  setCurrentPage: (page: string) => void
-  user: { name: string; email: string; role: string; finca: string }
-  farm: { nombre: string; ubicacion: string; hectareas: number }
+  currentPage: PageId
+  setCurrentPage: (page: PageId) => void
+  user: UserProfile
+  farm: Farm
   children: ReactNode
 }
 

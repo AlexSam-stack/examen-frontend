@@ -8,22 +8,10 @@ import { AnalizadorTierraPage } from '../features/analizadorTierra/AnalizadorTie
 import { DetalleTerrenoPage } from '../features/terrenos/DetalleTerrenoPage'
 import { CatalogoCultivosPage } from '../features/cultivos/CatalogoCultivosPage'
 import { EnfermedadesPage } from '../features/enfermedades/EnfermedadesPage'
-
-export const navigationItems = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'terrenos', label: 'Mis Terrenos' },
-  { id: 'detalle-terreno', label: 'Detalle de terreno' },
-  { id: 'cultivos', label: 'Cultivos' },
-  { id: 'catalogo-cultivos', label: 'Catálogo de cultivos' },
-  { id: 'riegos', label: 'Riegos' },
-  { id: 'bitacora', label: 'Bitácora' },
-  { id: 'enfermedades', label: 'Enfermedades' },
-  { id: 'analizador-fotos', label: 'Analizador de fotos' },
-  { id: 'analizador-tierra', label: 'Analizador de tierra' },
-]
+import type { PageId } from './navigation'
 
 type AppRoutesProps = {
-  currentPage: string
+  currentPage: PageId
 }
 
 export function AppRoutes({ currentPage }: AppRoutesProps) {

@@ -1,4 +1,4 @@
-import type { Riego } from '../../../context/FarmContext'
+import type { Riego } from '../../../types/farm'
 
 type RiegoTableProps = {
   riegos: Riego[]

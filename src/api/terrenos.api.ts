@@ -1,4 +1,4 @@
-import type { Terreno } from '../context/FarmContext'
+import type { Terreno } from '../types/farm'
 
 const terrenosMock: Terreno[] = [
   {

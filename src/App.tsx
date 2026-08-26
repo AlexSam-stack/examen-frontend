@@ -4,10 +4,11 @@ import { AuthPage } from './features/auth/AuthPage'
 import { MainLayout } from './layouts/MainLayout'
 import { FarmProvider, useFarm } from './context/FarmContext'
 import './App.css'
+import type { PageId } from './routes/navigation'
 
 function AppShell() {
   const { user, farm, isAuthenticated, setAuthenticated } = useFarm()
-  const [currentPage, setCurrentPage] = useState('dashboard')
+  const [currentPage, setCurrentPage] = useState<PageId>('dashboard')
 
   if (!isAuthenticated) {
     return <AuthPage onLogin={() => setAuthenticated(true)} />
