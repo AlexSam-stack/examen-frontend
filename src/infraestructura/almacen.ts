@@ -2,6 +2,8 @@ import type {Usuario } from "../dominio/farm";
 
 
 const CLAVE_SESION = 'farm_sesion';
+
+
 export function leerSesion() : Usuario | null {
     try {
         const crudo : unknown = JSON.parse(localStorage.getItem(CLAVE_SESION) ?? 'null');

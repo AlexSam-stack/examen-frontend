@@ -1,35 +1,32 @@
 import { Link } from "react-router-dom";
-import type { UserProfile } from "../../dominio/farm";
+import type { Usuario } from "../../dominio/farm";
 
-
-
-interface HeaderProps{
+interface HeaderProps {
   isAuthenticated: boolean;
-  usuario: UserProfile | null;
+  usuario: Usuario | null;
   onLogout: () => void;
 }
 
-export function Header ({isAuthenticated,usuario,onLogout}: HeaderProps) {
+export function Header({ isAuthenticated, usuario, onLogout }: HeaderProps) {
   return (
-    <header className="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 flex items-center justify-end transition-colors">
+    <header className="h-16 bg-slate-950 border-b border-slate-800 px-6 flex items-center justify-end">
       <div className="flex items-center gap-4">
-        {/* Sección Autenticación */}
         {isAuthenticated ? (
-          <div className="flex items-center gap-4 border-l border-gray-200 dark:border-gray-700 pl-4">
+          <div className="flex items-center gap-4 border-l border-slate-800 pl-4">
             <Link
               to="/perfil"
-              className="flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-gray-200 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-3 text-sm font-medium text-slate-200 hover:opacity-80 transition-opacity"
             >
               <img
-                src={usuario?.perfil || 'https://via.placeholder.com/40'}
-                alt={`Foto de ${usuario?.name || 'usuario'}`}
-                className="w-8 h-8 rounded-full object-cover border border-gray-200 dark:border-gray-700"
+                src={usuario?.perfil || 'https://placehold.co/40x40'}
+                alt={`Foto de ${usuario?.nombre || 'usuario'}`}
+                className="w-8 h-8 rounded-full object-cover border border-slate-700"
               />
-              <span>{usuario?.name || 'Mi Perfil'}</span>
+              <span>{usuario?.nombre || 'Mi Perfil'}</span>
             </Link>
             <button
               onClick={onLogout}
-              className="px-3 py-1.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 rounded-lg transition-colors"
+              className="px-3 py-1.5 text-sm font-medium text-red-400 hover:bg-red-950/50 rounded-lg transition-colors"
               type="button"
             >
               Cerrar Sesión
@@ -38,7 +35,7 @@ export function Header ({isAuthenticated,usuario,onLogout}: HeaderProps) {
         ) : (
           <Link
             to="/login"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors"
           >
             Iniciar Sesión
           </Link>
@@ -46,4 +43,4 @@ export function Header ({isAuthenticated,usuario,onLogout}: HeaderProps) {
       </div>
     </header>
   );
-};
+}

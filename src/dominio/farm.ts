@@ -1,10 +1,4 @@
-export type UserProfile = {
-  name: string
-  email: string
-  role: string
-  finca: string
-  perfil ?: string
-}
+
 
 export type Farm = {
   nombre: string
@@ -53,4 +47,7 @@ export interface Usuario {
   email: string;
   token: string;
   expiraEn: number
+  role?: string
+  finca?: string
+  perfil?: string
 }

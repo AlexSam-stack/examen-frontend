@@ -1,28 +1,34 @@
-import { createContext, useEffect, useState, type ReactNode } from "react"
-import type { Usuario } from "../dominio/farm"
+import { createContext, useEffect, useState, type ReactNode } from "react";
+import type { Usuario } from "../dominio/farm";
 import { borrarSesion, guardarSesion, leerSesion } from "../infraestructura/almacen";
 import { iniciarSesion, obtenerPerfil } from "../infraestructura/auth";
-interface ValorSesion {
-    usuario : Usuario | null;
-    entrar : (usuario : string, clave : string ) => Promise<void>;
-    salir : () => void;
-}
-export const SesionContext = createContext< ValorSesion | null>(null);
 
-export function SesionProvider ({children} : {children : ReactNode}) {
-    const [usuario, setUsuario] =useState< Usuario | null>(leerSesion);
+interface SesionContextValue {
+  usuario: Usuario| null;
+  entrar: (usuario: string, clave: string) => Promise<void>;
+  salir: () => void;
+}
+
+export const SesionContext = createContext<SesionContextValue | null>(null);
+
+
+export function SesionProvider({ children }: { children: ReactNode }) {
+
+  const [usuario, setUsuario] =useState< Usuario | null>(leerSesion);
     //entrar
-    async function entrar(nombreUsuario : string, clave : string) {
-        const conectado = await iniciarSesion(nombreUsuario, clave);
+
+  async function entrar(nombreUsuario: string, clave: string): Promise<void> {
+    const conectado = await iniciarSesion(nombreUsuario, clave);
         guardarSesion(conectado);
         setUsuario(conectado);
-    }
-    //salir
+  }
+
     function salir () {
         borrarSesion();
         setUsuario(null);
     }
-    useEffect (() => {
+
+ useEffect (() => {
         if(!usuario) return;
         const restante = usuario.expiraEn - Date.now();
         if(restante <= 0 ){

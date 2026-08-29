@@ -1,17 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import './styles.css'
-import App from './App.tsx'
-import { FarmProvider } from './aplicacion/FarmContext.tsx'
 import { BrowserRouter } from 'react-router-dom'
+import App from './App.tsx'
+import { SesionProvider } from './aplicacion/SesionContext'
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <FarmProvider>
-    <App />
-    </FarmProvider>
+      <SesionProvider>
+        <App />
+      </SesionProvider>
     </BrowserRouter>
   </StrictMode>,
 )
