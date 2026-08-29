@@ -1,7 +1,7 @@
-import type { Bitacora, Cultivo, Farm, Riego, Terreno, UserProfile } from '../dominio/farm'
+import type { Bitacora, Cultivo, Farm, Riego, Terreno, Usuario2 } from '../dominio/farm'
 
-export const defaultUser: UserProfile = {
-  name: 'María López',
+export const defaultUser: Usuario2 = {
+  nombre: 'María López',
   email: 'maria@fincaloslaureles.com',
   role: 'Administrador de finca',
   finca: 'Los Laureles',

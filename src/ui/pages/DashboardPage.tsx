@@ -1,7 +1,7 @@
-import { useFarm } from '../../aplicacion/FarmContext'
+//import { useFarm } from '../../aplicacion/FarmContext'
 
 export function DashboardPage() {
-  const { terrenos, cultivos, riegos, bitacora } = useFarm()
+  //const { terrenos, cultivos, riegos, bitacora } = useFarm()
 
   const activeAlerts = [
     { label: 'Riego programado', value: 'Hoy 18:00', tone: 'warning' },
@@ -22,7 +22,7 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+   /* <div className="flex flex-col gap-6">
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col gap-1">
           <span className="text-xs text-slate-500">Total terrenos</span>
@@ -128,5 +128,6 @@ export function DashboardPage() {
         </div>
       </section>
     </div>
-  )
+  )*/
+ <h1> prueba qeweew</h1>)
 }

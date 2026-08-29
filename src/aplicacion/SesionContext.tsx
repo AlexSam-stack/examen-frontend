@@ -54,6 +54,9 @@ export function SesionProvider({ children }: { children: ReactNode }) {
             clearTimeout(temporizador);
         }
     }, [usuario]);
+
+
+
     return (
         <SesionContext.Provider value={{usuario, entrar, salir}}>
             {children}

@@ -9,13 +9,13 @@ import { CultivosPage } from './ui/pages/CultivosPage'
 import { DashboardPage } from './ui/pages/DashboardPage'
 import { EnfermedadesPage } from './ui/pages/EnfermedadesPage'
 import { RiegosPage } from './ui/pages/RiegosPage'
-import AuthPage from './ui/pages/Login'
 import NoEncontrada from './ui/pages/NoEncontrada'
+import Login from './ui/pages/Login'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<AuthPage />} />
+      <Route path="/login" element={<Login />} />
 
       <Route element={<RutaProtegida />}>
         <Route element={<LayoutPrueba />}>
@@ -29,7 +29,6 @@ export default function App() {
           <Route path="/analizadorTierra" element={<AnalizadorTierraPage />} />
         </Route>
       </Route>
-
       <Route path="*" element={<NoEncontrada />} />
     </Routes>
   )

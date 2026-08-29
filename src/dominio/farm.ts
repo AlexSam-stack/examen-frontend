@@ -51,3 +51,10 @@ export interface Usuario {
   finca?: string
   perfil?: string
 }
+
+export interface Usuario2{
+  nombre : string;
+  email: string;
+  role?: string
+  finca?: string
+}
