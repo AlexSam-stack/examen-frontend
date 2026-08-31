@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import type { Usuario } from "../dominio/farm";
+import type { Usuario } from "../dominio/Tipos";
 import { borrarSesion, guardarSesion, leerSesion } from "../infraestructura/almacen";
 import { iniciarSesion, obtenerPerfil } from "../infraestructura/auth";
 

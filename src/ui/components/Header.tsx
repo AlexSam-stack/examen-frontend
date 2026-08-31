@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Usuario } from "../../dominio/farm";
+import type { Usuario } from "../../dominio/Tipos";
 
 interface HeaderProps {
   usuario: Usuario | null;

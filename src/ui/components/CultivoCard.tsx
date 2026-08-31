@@ -1,4 +1,4 @@
-import type { Cultivo } from "../../dominio/farm"
+import type { Cultivo } from "../../dominio/Tipos"
 
 type CultivoCardProps = {
   cultivo: Cultivo

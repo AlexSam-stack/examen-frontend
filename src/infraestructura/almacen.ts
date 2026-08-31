@@ -1,4 +1,4 @@
-import type {Usuario } from "../dominio/farm";
+import type {Usuario } from "../dominio/Tipos";
 
 
 const CLAVE_SESION = 'farm_sesion';

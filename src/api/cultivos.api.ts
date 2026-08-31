@@ -1,4 +1,4 @@
-import type { Cultivo } from '../dominio/farm'
+import type { Cultivo } from '../dominio/Tipos'
 
 const cultivosMock: Cultivo[] = [
   {

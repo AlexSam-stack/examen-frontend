@@ -1,4 +1,4 @@
-import type { Riego } from "../../dominio/farm"
+import type { Riego } from "../../dominio/Tipos"
 
 type RiegoTableProps = {
   riegos: Riego[]

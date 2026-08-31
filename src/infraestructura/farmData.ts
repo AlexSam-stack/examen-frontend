@@ -1,4 +1,4 @@
-import type { Bitacora, Cultivo, Farm, Riego, Terreno, Usuario2 } from '../dominio/farm'
+import type { Bitacora, Cultivo, Farm, Riego, Terreno, Usuario2 } from '../dominio/Tipos'
 
 export const defaultUser: Usuario2 = {
   nombre: 'María López',

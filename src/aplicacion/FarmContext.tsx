@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
 import { defaultBitacora, defaultCultivos, defaultFarm, defaultRiegos, defaultTerrenos, defaultUser } from '../infraestructura/farmData'
-import type { Bitacora, Cultivo, Farm, Riego, Terreno, Usuario2 } from '../dominio/farm'
+import type { Bitacora, Cultivo, Farm, Riego, Terreno, Usuario2 } from '../dominio/Tipos'
 
 type FarmContextValue = {
   user: Usuario2

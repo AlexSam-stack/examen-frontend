@@ -1,4 +1,4 @@
-import type { Usuario } from "../dominio/farm";
+import type { Usuario } from "../dominio/Tipos";
 const BASE = import.meta.env.VITE_API_URL;
 const MINUTOS_SESION = 30;
 // usuario emilys

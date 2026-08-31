@@ -1,4 +1,4 @@
-import type { Terreno } from "../../dominio/farm"
+import type { Terreno } from "../../dominio/Tipos"
 
 type TerrenoCardProps = {
   terreno: Terreno
