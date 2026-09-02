@@ -22,6 +22,13 @@ export function normalizarError(error: unknown): AppApiError {
   }
 
   if (error instanceof Error) {
+    if (error.message === "Failed to fetch") {
+      return new AppApiError(
+        "No se pudo conectar con el servidor. Verifica tu conexión o que el backend esté activo.",
+        0
+      );
+    }
+
     return new AppApiError(error.message, 0);
   }
 
@@ -30,16 +37,35 @@ export function normalizarError(error: unknown): AppApiError {
 
 export function parsearErrorHttp(status: number, data: unknown): AppApiError {
   if (status === 400 && data && typeof data === "object" && !("mensaje" in data)) {
+    const errores = data as ValidationErrors;
+    const primerMensaje = Object.values(errores)[0];
+
     return new AppApiError(
-      "Hay datos inválidos en el formulario.",
+      primerMensaje ?? "Hay datos inválidos en el formulario.",
       status,
-      data as ValidationErrors
+      errores
     );
   }
 
   if (data && typeof data === "object" && "mensaje" in data) {
-    return new AppApiError((data as ApiError).mensaje, status);
+    const mensaje = (data as ApiError).mensaje;
+
+    if (status === 500 && mensaje.toLowerCase().includes("ya existe")) {
+      return new AppApiError("Ese email ya está registrado. Prueba iniciar sesión.", status);
+    }
+
+    return new AppApiError(mensaje, status);
   }
 
-  return new AppApiError("Ocurrió un error inesperado. Inténtalo de nuevo.", status);
+  if (status === 403) {
+    return new AppApiError(
+      "Acceso denegado (403). Revisa que VITE_API_BASE_URL termine en /api y reinicia npm run dev.",
+      status
+    );
+  }
+
+  return new AppApiError(
+    `Error del servidor (HTTP ${status}). Inténtalo de nuevo.`,
+    status
+  );
 }

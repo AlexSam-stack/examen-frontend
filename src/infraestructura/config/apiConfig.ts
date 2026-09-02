@@ -7,17 +7,12 @@
  * ------------------------------------------------------------------
  */
 
-export const API_BASE_URL: string =
-  (import.meta as any)?.env?.VITE_API_BASE_URL ?? "http://localhost:8080/api";
+export const API_BASE_URL: string =import.meta.env.VITE_API_BASE_URL;
 
 /** Tiempo máximo de espera por request, en milisegundos. */
-export const API_TIMEOUT_MS = 15000;
+export const API_TIMEOUT_MS = 40000;
 
-/**
- * Rutas de la API agrupadas por dominio. Centralizarlas acá evita
- * strings mágicos repetidos en cada archivo *.api.ts y facilita
- * actualizar el backend sin tocar la capa de servicios.
- */
+
 export const ENDPOINTS = {
   auth: {
     login: "/auth/login",
