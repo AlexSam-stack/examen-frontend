@@ -1,3 +1,5 @@
+
+
 export function alternarFavorito(
     favoritos: number[],
     enfermedadId: number

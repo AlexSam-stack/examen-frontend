@@ -40,8 +40,9 @@ export interface TipoPlanta {
 
 export interface Cultivo {
   id: number;
-  terreno: Terreno;
-  tipoPlanta: TipoPlanta;
+  terreno: Terreno | null;
+  tipoPlanta: TipoPlanta | null;
+  tipoPlantaId?: number;
   fechaSiembra: string; // 
   estado: EstadoCultivo;
   observaciones: string | null;
@@ -108,7 +109,6 @@ export interface LoginRequest {
 }
 
 export interface RegistroRequest {
-  id: number;
   nombre: string;
   email: string;
   password: string;

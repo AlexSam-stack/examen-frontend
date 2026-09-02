@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSesion } from "../../aplicacion/useSesion";
 import { useState, type FormEvent } from "react";
 import type { LoginRequest } from "../../infraestructura";
@@ -96,6 +96,13 @@ export default function Login() {
         >
           {enviando ? "Entrando..." : "Entrar"}
         </button>
+
+        <p className="text-sm text-slate-400 text-center">
+          ¿No tienes cuenta?{" "}
+          <Link to="/registro" className="text-blue-400 hover:text-blue-300">
+            Regístrate
+          </Link>
+        </p>
       </form>
     </div>
   );

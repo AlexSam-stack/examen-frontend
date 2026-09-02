@@ -11,7 +11,7 @@ export const analisisFotosApi = {
   async analizar(
     cultivoId: number,
     imagen: File,
-    onProgress?: (porcentaje: number) => void
+    _onProgress?: (porcentaje: number) => void
   ): Promise<AnalisisFotoResponse> {
 
     try {

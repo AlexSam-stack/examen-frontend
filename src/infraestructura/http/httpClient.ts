@@ -1,5 +1,6 @@
 import { API_BASE_URL, API_TIMEOUT_MS } from "../config/apiConfig";
 import { tokenStorage } from "../tokenStorage";
+import { parsearErrorHttp } from "./apiError";
 
 
 let onSesionExpirada: (() => void) | null = null;
@@ -49,10 +50,21 @@ export async function httpClient<T>(
     }
 
     if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+      let cuerpo: unknown = null;
+
+      try {
+        cuerpo = await response.json();
+      } catch {
+        cuerpo = null;
+      }
+
+      throw parsearErrorHttp(response.status, cuerpo);
     }
 
-    // Retorna la respuesta serializada a JSON
+    if (response.status === 204) {
+      return undefined as T;
+    }
+
     return (await response.json()) as T;
   } catch (error) {
     clearTimeout(idTimeout);
