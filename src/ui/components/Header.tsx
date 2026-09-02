@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import type { Usuario } from "../../dominio/Tipos";
+
+import type { UsuarioSesion } from "../../infraestructura";
 
 interface HeaderProps {
-  usuario: Usuario | null;
+  usuario: UsuarioSesion | null;
   cerarrSesion: () => void;
 }
 
@@ -20,7 +21,7 @@ export function Header({ usuario, cerarrSesion }: HeaderProps) {
               className="flex items-center gap-3 text-sm font-medium text-slate-200 hover:opacity-80 transition-opacity"
             >
               <img
-                src={usuario.perfil || "https://placehold.co/40x40"}
+                src={"https://placehold.co/40x40"}
                 alt={`Foto de ${usuario.nombre}`}
                 className="w-8 h-8 rounded-full object-cover border border-slate-700"
               />

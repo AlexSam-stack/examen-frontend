@@ -10,13 +10,12 @@ export function TerrenoCard({ terreno }: TerrenoCardProps) {
       <div className="flex items-center justify-between mb-2">
         <h4 className="text-slate-100 font-semibold">{terreno.nombre}</h4>
         <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-          {terreno.estado}
+          {terreno.tipoSuelo}
         </span>
       </div>
       <p className="text-sm text-slate-400 mb-3">{terreno.ubicacion}</p>
       <ul className="space-y-1 text-sm text-slate-300 mb-4">
-        <li>{terreno.hectareas} ha</li>
-        <li>{terreno.tipoSuelo}</li>
+        <li>{terreno.areaHectareas} ha</li>
       </ul>
       <button
         type="button"

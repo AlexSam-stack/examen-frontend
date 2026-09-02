@@ -14,7 +14,7 @@ export interface Usuario {
   nombre: string;
   email: string;
   rol: Rol;
-  creadoEn: string; // ISO-8601 (LocalDateTime serializado)
+  creadoEn: string;
 }
 
 export interface Terreno {
@@ -102,11 +102,13 @@ export interface AnalisisTierra {
 
 
 export interface LoginRequest {
+
   email: string;
   password: string;
 }
 
 export interface RegistroRequest {
+  id: number;
   nombre: string;
   email: string;
   password: string;
@@ -154,12 +156,7 @@ export interface AnalisisTierraRequest {
   humedadPc?: number;
 }
 
-export interface AuthResponse {
-  token: string;
-  nombre: string;
-  email: string;
-  rol: Rol;
-}
+
 
 export interface PrediccionDTO {
   clase: string;

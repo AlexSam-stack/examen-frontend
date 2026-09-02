@@ -1,13 +1,17 @@
+
 const TOKEN_KEY = "agrotech.token";
 const USER_KEY = "agrotech.usuario";
 
 export interface UsuarioSesion {
+  id: number;
   nombre: string;
   email: string;
   rol: string;
 }
 
 export const tokenStorage = {
+  
+  
   getToken(): string | null {
     return localStorage.getItem(TOKEN_KEY);
   },

@@ -1,65 +1,75 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import type { Usuario } from "../dominio/Tipos";
-import { borrarSesion, guardarSesion, leerSesion } from "../infraestructura/almacen";
-import { iniciarSesion, obtenerPerfil } from "../infraestructura/auth";
+import type { LoginRequest, RegistroRequest } from "../dominio/Tipos";
+import { authApi, registrarHandlerSesionExpirada, tokenStorage, type UsuarioSesion } from "../infraestructura";
+import { tokenExpirado } from "../dominio/sesion";
 
-interface SesionContextValue {
-  usuario: Usuario| null;
-  entrar: (usuario: string, clave: string) => Promise<void>;
-  salir: () => void;
+
+
+
+interface AuthContextValue {
+  usuario: UsuarioSesion | null;
+  cargandoSesion: boolean;
+  estaAutenticado: boolean;
+  login: (datos: LoginRequest) => Promise<void>;
+  registrar: (datos: RegistroRequest) => Promise<void>;
+  logout: () => void;
 }
 
-export const SesionContext = createContext<SesionContextValue | null>(null);
+ export const SesionContext = createContext<AuthContextValue | undefined>(undefined);
 
 
 export function SesionProvider({ children }: { children: ReactNode }) {
 
-  const [usuario, setUsuario] =useState< Usuario | null>(leerSesion);
-    //entrar
+  const [usuario, setUsuario] = useState<UsuarioSesion | null>(null);
+  const [cargandoSesion, setCargandoSesion] = useState(true);
 
-  async function entrar(nombreUsuario: string, clave: string): Promise<void> {
-    const conectado = await iniciarSesion(nombreUsuario, clave);
-        guardarSesion(conectado);
-        setUsuario(conectado);
+  useEffect(() => {
+    const token = tokenStorage.getToken();
+    const usuarioGuardado = tokenStorage.getUsuario();
+
+    if (token && usuarioGuardado && !tokenExpirado(token)) {
+      setUsuario(usuarioGuardado);
+    } else {
+      tokenStorage.clear();
+      setUsuario(null);
+    }
+    setCargandoSesion(false);
+
+    // Si el backend responde 401 en cualquier momento (token inválido/expirado),
+    // cerramos la sesión en el frontend también.
+    registrarHandlerSesionExpirada(() => setUsuario(null));
+  }, []);
+
+  async function login(datos: LoginRequest) {
+    const respuesta = await authApi.login(datos);
+    setUsuario({
+      id: respuesta.id,
+      nombre: respuesta.nombre,
+      email: respuesta.email,
+      rol: respuesta.rol,
+    });
   }
 
-    function salir () {
-        borrarSesion();
-        setUsuario(null);
-    }
+  async function registrar(datos: RegistroRequest) {
+    const respuesta = await authApi.registro(datos);
+    setUsuario({
+      id: respuesta.id,
+      nombre: respuesta.nombre,
+      email: respuesta.email,
+      rol: respuesta.rol,
+    });
+  }
 
- useEffect (() => {
-        if(!usuario) return;
-        const restante = usuario.expiraEn - Date.now();
-        if(restante <= 0 ){
-            borrarSesion();
-            setUsuario(null);
-            return;
-        }
-        const controlador = new AbortController();
-        obtenerPerfil(usuario.token, controlador.signal)
-        .catch((error : unknown) => {
-            if(error instanceof DOMException && error.name === 'AbortError') return;
-            console.warn('La sesion guardada ya no es valida: ', error instanceof Error ? error.message : error);
-            borrarSesion();
-            setUsuario(null);
-        });
-        const temporizador = setTimeout(() => {
-            borrarSesion();
-            setUsuario(null);
-        }, restante);
+  function logout() {
+    authApi.logout();
+    setUsuario(null);
+  }
 
-        return () => {
-            controlador.abort();
-            clearTimeout(temporizador);
-        }
-    }, [usuario]);
-
-
-
-    return (
-        <SesionContext.Provider value={{usuario, entrar, salir}}>
-            {children}
-        </SesionContext.Provider>
-    )
+  return (
+    <SesionContext.Provider
+      value={{ usuario, cargandoSesion, estaAutenticado: !!usuario, login, registrar, logout }}
+    >
+      {children}
+    </SesionContext.Provider>
+  );
 }

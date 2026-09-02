@@ -1,73 +1,255 @@
-const enfermedades = [
-  {
-    nombre: 'Mildiu',
-    cultivo: 'Tomate y hortalizas',
-    sintomas: 'Manchas amarillas y polvo blanquecino en el envés.',
-    tratamiento: 'Mejorar ventilación, reducir humedad y aplicar fungicida preventivo.',
-  },
-  {
-    nombre: 'Pulgón',
-    cultivo: 'Hortalizas y frutales',
-    sintomas: 'Hojas enrolladas, melaza y crecimiento debilitado.',
-    tratamiento: 'Retirar focos afectados y aplicar jabón potásico o control biológico.',
-  },
-  {
-    nombre: 'Roya',
-    cultivo: 'Maíz y cereales',
-    sintomas: 'Pústulas anaranjadas sobre hojas y tallos.',
-    tratamiento: 'Retirar material afectado y vigilar la humedad del cultivo.',
-  },
-]
+import { useEffect, useState } from "react";
 
-export function EnfermedadesPage() {
-  return (
-    <div className="flex flex-col gap-8">
-      <section className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <p className="text-xs uppercase tracking-wide text-blue-400 font-medium">Consulta rápida</p>
-          <h2 className="text-2xl font-bold text-slate-100">Enfermedades frecuentes</h2>
-          <p className="text-sm text-slate-400">
-            Identifica síntomas comunes y revisa acciones de manejo antes de solicitar un análisis.
-          </p>
-        </div>
-        <input
-          className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-64"
-          type="search"
-          placeholder="Buscar enfermedad"
-          aria-label="Buscar enfermedad"
-        />
-      </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {enfermedades.map((enfermedad) => (
-          <article
-            className="relative bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-blue-500/50 transition-colors"
-            key={enfermedad.nombre}
-          >
-            <div
-              aria-hidden="true"
-              className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold mb-3"
+import type {
+    Enfermedad,
+    TipoPlanta,
+} from "../../dominio/Tipos";
+import { useFavorito } from "../../aplicacion/useFavorito";
+import { enfermedadesApi, tiposPlantaApi } from "../../infraestructura";
+
+export default function Enfermedades() {
+
+    const [enfermedades, setEnfermedades] =
+        useState<Enfermedad[]>([]);
+
+    const [tiposPlanta, setTiposPlanta] =
+        useState<TipoPlanta[]>([]);
+
+    const [busqueda, setBusqueda] =
+        useState("");
+
+    const [tipoPlantaId, setTipoPlantaId] =
+        useState<number | "">("");
+
+    const [cargando, setCargando] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+    const {
+        alternar,
+        esFavorito,
+    } = useFavorito();
+
+    async function cargarEnfermedades() {
+
+        try {
+
+            setCargando(true);
+            setError("");
+
+            let data: Enfermedad[];
+
+            if (busqueda.trim()) {
+
+                data =
+                    await enfermedadesApi.buscarPorNombre(
+                        busqueda
+                    );
+
+            } else if (tipoPlantaId !== "") {
+
+                data =
+                    await enfermedadesApi.listarPorTipoPlanta(
+                        tipoPlantaId
+                    );
+
+            } else {
+
+                data =
+                    await enfermedadesApi.listarTodas();
+
+            }
+
+            setEnfermedades(data);
+
+        } catch (error) {
+
+            setError(
+                error instanceof Error
+                    ? error.message
+                    : "No se pudieron cargar las enfermedades"
+            );
+
+        } finally {
+
+            setCargando(false);
+
+        }
+    }
+
+    async function cargarTiposPlanta() {
+
+        try {
+
+            const data =
+                await tiposPlantaApi.listar();
+
+            setTiposPlanta(data);
+
+        } catch (error) {
+
+            setError(
+                error instanceof Error
+                    ? error.message
+                    : "No se pudieron cargar los tipos de planta"
+            );
+
+        }
+    }
+
+    useEffect(() => {
+
+        cargarTiposPlanta();
+
+    }, []);
+
+    useEffect(() => {
+
+        cargarEnfermedades();
+
+    }, [tipoPlantaId]);
+
+    function buscar(e: React.FormEvent) {
+
+        e.preventDefault();
+
+        cargarEnfermedades();
+
+    }
+
+    function limpiarFiltros() {
+
+        setBusqueda("");
+        setTipoPlantaId("");
+
+    }
+
+    return (
+
+        <div>
+
+            <h1>Enfermedades</h1>
+
+            {error && (
+                <p>{error}</p>
+            )}
+
+            {/* BUSCADOR */}
+
+            <form onSubmit={buscar}>
+
+                <input
+                    type="text"
+                    value={busqueda}
+                    onChange={(e) =>
+                        setBusqueda(e.target.value)
+                    }
+                    placeholder="Buscar enfermedad..."
+                />
+
+                <button type="submit">
+                    Buscar
+                </button>
+
+            </form>
+
+            {/* FILTRO */}
+
+            <select
+                value={tipoPlantaId}
+                onChange={(e) =>
+                    setTipoPlantaId(
+                        e.target.value === ""
+                            ? ""
+                            : Number(e.target.value)
+                    )
+                }
             >
-              +
-            </div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-slate-100 font-semibold">{enfermedad.nombre}</h3>
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                Guía
-              </span>
-            </div>
-            <p className="text-sm text-slate-400 mb-1.5">
-              <strong className="text-slate-300">Afecta:</strong> {enfermedad.cultivo}
-            </p>
-            <p className="text-sm text-slate-400 mb-1.5">
-              <strong className="text-slate-300">Síntomas:</strong> {enfermedad.sintomas}
-            </p>
-            <p className="text-sm text-slate-400">
-              <strong className="text-slate-300">Manejo:</strong> {enfermedad.tratamiento}
-            </p>
-          </article>
-        ))}
-      </section>
-    </div>
-  )
+
+                <option value="">
+                    Todas las plantas
+                </option>
+
+                {tiposPlanta.map((planta) => (
+
+                    <option
+                        key={planta.id}
+                        value={planta.id}
+                    >
+                        {planta.nombre}
+                    </option>
+
+                ))}
+
+            </select>
+
+            <button onClick={limpiarFiltros}>
+                Limpiar
+            </button>
+
+            {/* LISTADO */}
+
+            {cargando ? (
+
+                <p>Cargando enfermedades...</p>
+
+            ) : (
+
+                <div>
+
+                    {enfermedades.map((enfermedad) => (
+
+                        <article key={enfermedad.id}>
+
+                            <h2>
+                                {enfermedad.nombre}
+                            </h2>
+
+                            <p>
+                                Planta:{" "}
+                                {enfermedad.tipoPlanta?.nombre ??
+                                    "General"}
+                            </p>
+
+                            <p>
+                                Riesgo:{" "}
+                                {enfermedad.nivelRiesgo}
+                            </p>
+
+                            <p>
+                                Síntomas:{" "}
+                                {enfermedad.sintomas ??
+                                    "No especificados"}
+                            </p>
+
+                            <p>
+                                Tratamiento:{" "}
+                                {enfermedad.tratamiento ??
+                                    "No especificado"}
+                            </p>
+
+                            <button
+                                onClick={() =>
+                                    alternar(enfermedad.id)
+                                }
+                            >
+                                {esFavorito(enfermedad.id)
+                                    ? "❤️ Quitar favorito"
+                                    : "🤍 Agregar favorito"}
+                            </button>
+
+                        </article>
+
+                    ))}
+
+                </div>
+
+            )}
+
+        </div>
+
+    );
 }

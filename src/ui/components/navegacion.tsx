@@ -32,9 +32,6 @@ export function Navegacion() {
         <NavLink to="/riego" className={linkStyle}>
           Riego
         </NavLink>
-        <NavLink to="/analizadorFotos" className={linkStyle}>
-          Analizar Fotos
-        </NavLink>
         <NavLink to="/analizadorTierra" className={linkStyle}>
           Analizador de tierra
         </NavLink>
